@@ -2,6 +2,7 @@ package com.crysten.api.openapi.controller;
 
 import com.crysten.api.dto.FuncionarioDTO;
 import com.crysten.api.dto.input.FuncionarioInput;
+import com.crysten.core.openapi.PageableParameter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +22,7 @@ public interface FuncionarioControllerOpenApi {
     @Operation(summary = "Lista os funcionarios")
     ResponseEntity<List<FuncionarioDTO>> findAll();
 
+    @PageableParameter
     @Operation(summary = "Lista os funcionarios com paginação")
     ResponseEntity<Page<FuncionarioDTO>> listarFuncionariosPage(Pageable pageable);
 

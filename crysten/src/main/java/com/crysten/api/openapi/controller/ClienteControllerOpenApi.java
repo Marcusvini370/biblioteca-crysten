@@ -2,6 +2,7 @@ package com.crysten.api.openapi.controller;
 
 import com.crysten.api.dto.ClienteDTO;
 import com.crysten.api.dto.input.ClienteInput;
+import com.crysten.core.openapi.PageableParameter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +22,7 @@ public interface ClienteControllerOpenApi {
     @Operation(summary = "Lista os clientes")
     ResponseEntity<List<ClienteDTO>> findAll();
 
+    @PageableParameter
     @Operation(summary = "Lista os clientes com paginação")
     ResponseEntity<Page<ClienteDTO>> listarClientesPage(Pageable pageable);
 
