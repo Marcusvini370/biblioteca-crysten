@@ -1,5 +1,6 @@
 package com.crysten.domain.service;
 
+import com.crysten.domain.model.Endereco;
 import com.crysten.domain.model.Funcionario;
 
 import java.util.List;
@@ -10,10 +11,12 @@ public interface FuncionarioService {
 
     Funcionario findById(Long idFuncionario);
 
-    Funcionario saveCliente(Funcionario funcionario);
+    Funcionario saveFuncionario(Funcionario funcionario);
 
-    Funcionario updateCliente(Long idFuncionario, Funcionario funcionario);
+    Funcionario updateFuncionario(Long idFuncionario, Funcionario funcionario);
 
     void delete(Long idFuncionario);
+
+    Endereco consultaCep(String cep);
 
 }
