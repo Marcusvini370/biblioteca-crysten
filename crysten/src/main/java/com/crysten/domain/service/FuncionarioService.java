@@ -16,6 +16,8 @@ public interface FuncionarioService {
 
     FuncionarioDTO findById(Long idFuncionario);
 
+    Page<FuncionarioDTO> findByNomeContaining(String nome, Pageable pageable);
+
     FuncionarioDTO saveFuncionario(FuncionarioInput funcionarioInput);
 
     FuncionarioDTO updateFuncionario(Long idFuncionario, FuncionarioInput funcionarioInput);

@@ -40,6 +40,12 @@ public class FuncionarioController implements FuncionarioControllerOpenApi {
         return ResponseEntity.ok(funcionarioService.findById(id));
     }
 
+    @GetMapping("/find/{nome}/page")
+    public ResponseEntity<Page<FuncionarioDTO>> findFuncionarioPage(@PathVariable String nome,
+                                                                @PageableDefault(size = 5, sort = "nomeCompleto") Pageable pageable) {
+        return ResponseEntity.ok(funcionarioService.findByNomeContaining(nome, pageable));
+    }
+
    @PostMapping
     public ResponseEntity<FuncionarioDTO> saveFuncionario(@RequestBody @Valid FuncionarioInput funcionarioInput){
        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.saveFuncionario(funcionarioInput));

@@ -49,6 +49,11 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     }
 
     @Override
+    public Page<FuncionarioDTO> findByNomeContaining(String nome, Pageable pageable) {
+        return funcionarioModelAssembler.toCollectionModelPage(funcionarioRepository.findByNomeContaining(nome.toUpperCase(), pageable));
+    }
+
+    @Override
     public FuncionarioDTO saveFuncionario(FuncionarioInput funcionarioInput) {
 
         Endereco enderecoCep = consultaCep(funcionarioInput.getEndereco().getCep());

@@ -36,10 +36,14 @@ public interface FuncionarioControllerOpenApi {
                             content = @Content(schema = @Schema(ref = "Problema"))
                     ),
                     @ApiResponse(responseCode = "406", description = "F",
-                            content = @Content(schema = @Schema(ref = "Problema406"))
+                            content = @Content(schema = @Schema(ref = "Problema"))
                     )
             })
     ResponseEntity<FuncionarioDTO> findById(@Parameter(description = "ID de um funcionário", example = "1", required = true) Long id);
+
+    @PageableParameter
+    @Operation(summary = "Busca funcionários por nome")
+    ResponseEntity<Page<FuncionarioDTO>> findFuncionarioPage(@Parameter(description = "Nome de um funcionário", example = "Ana")String nome, Pageable pageable);
 
     @Operation(summary = "Cadastra um funcionário", description = "Cadastro de um funcionário, " +
             "necessita de um cpf e cep válido")

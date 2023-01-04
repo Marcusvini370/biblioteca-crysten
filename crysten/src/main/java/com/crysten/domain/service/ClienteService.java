@@ -16,6 +16,8 @@ public interface ClienteService {
 
     ClienteDTO findById(Long idCliente);
 
+    Page<ClienteDTO> findByNomeContaining(String nome, Pageable pageable);
+
     ClienteDTO saveCliente(ClienteInput clienteInput);
 
     ClienteDTO updateCliente(Long idCliente, ClienteInput clienteInput);

@@ -40,6 +40,12 @@ public class ClienteController implements ClienteControllerOpenApi {
         return ResponseEntity.ok(clienteService.findById(id));
     }
 
+    @GetMapping("/find/{nome}/page")
+    public ResponseEntity<Page<ClienteDTO>> findClientePage(@PathVariable String nome,
+                                                            @PageableDefault(size = 5, sort = "nomeCompleto") Pageable pageable) {
+        return ResponseEntity.ok(clienteService.findByNomeContaining(nome, pageable));
+    }
+
     @PostMapping
     public ResponseEntity<ClienteDTO> saveCliente(@RequestBody @Valid ClienteInput clienteInput){
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.saveCliente(clienteInput));

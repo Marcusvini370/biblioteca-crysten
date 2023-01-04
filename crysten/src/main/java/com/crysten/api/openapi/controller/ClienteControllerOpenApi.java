@@ -38,6 +38,10 @@ public interface ClienteControllerOpenApi {
             })
     ResponseEntity<ClienteDTO> findById(@Parameter(description = "ID de um cliente", example = "1", required = true) Long id);
 
+    @PageableParameter
+    @Operation(summary = "Busca clientes por nome")
+    ResponseEntity<Page<ClienteDTO>> findClientePage(@Parameter(description = "Nome de um cliente", example = "Marcus")String nome, Pageable pageable);
+
     @Operation(summary = "Cadastra um cliente", description = "Cadastro de um cliente, " +
             "necessita de um cpf e cep válido")
     ResponseEntity<ClienteDTO> saveCliente(@RequestBody( description = "Representeção de um novo cliente", required = true) ClienteInput clienteInput);

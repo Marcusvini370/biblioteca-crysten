@@ -53,6 +53,11 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public Page<ClienteDTO> findByNomeContaining(String nome, Pageable pageable) {
+        return clienteModelAssembler.toCollectionModelPage(clienteRepository.findByNomeContaining(nome.toUpperCase(), pageable));
+    }
+
+    @Override
     public ClienteDTO saveCliente(ClienteInput clienteInput) {
         System.out.println(clienteInput.getEndereco().getNumero());
         int numero = clienteInput.getEndereco().getNumero();
