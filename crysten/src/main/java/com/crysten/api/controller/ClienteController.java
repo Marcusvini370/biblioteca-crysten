@@ -8,6 +8,9 @@ import com.crysten.domain.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,12 @@ public class ClienteController implements ClienteControllerOpenApi {
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> findAll(){
         return ResponseEntity.ok(clienteService.findAll());
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<ClienteDTO>> listarClientesPage(
+            @PageableDefault(size = 5, sort = "nomeCompleto") Pageable pageable) {
+        return ResponseEntity.ok(clienteService.findAllPage(pageable));
     }
 
     @GetMapping("/{id}")

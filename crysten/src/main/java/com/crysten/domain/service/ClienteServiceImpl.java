@@ -10,6 +10,9 @@ import com.crysten.domain.model.Endereco;
 import com.crysten.domain.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -37,6 +40,14 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public Page<ClienteDTO> findAllPage(Pageable pageable) {
+        Page<Cliente> clientesPage = clienteRepository.findAll(pageable);
+        List<ClienteDTO> clienteDTO = clienteModelAssembler.toCollectionModel(clientesPage.getContent());
+        Page<ClienteDTO> clienteDTOPage = new PageImpl<>(clienteDTO, pageable, clientesPage.getTotalElements());
+        return clienteDTOPage;
+    }
+
+    @Override
     public ClienteDTO findById(Long idCliente) {
         return clienteModelAssembler.toModel(buscarOuFalhar(idCliente)) ;
     }
@@ -51,7 +62,6 @@ public class ClienteServiceImpl implements ClienteService{
         clienteInput.setEndereco(enderecoCep);
         Cliente cliente = clienteInputDissasembler.toDomainObject(clienteInput);
         cliente.getEndereco().setNumero(numero);
-
 
         return clienteModelAssembler.toModel(clienteRepository.save(cliente));
     }

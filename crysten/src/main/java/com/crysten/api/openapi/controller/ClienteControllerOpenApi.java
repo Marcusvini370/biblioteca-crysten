@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,6 +20,9 @@ public interface ClienteControllerOpenApi {
 
     @Operation(summary = "Lista os clientes")
     ResponseEntity<List<ClienteDTO>> findAll();
+
+    @Operation(summary = "Lista os clientes com paginação")
+    ResponseEntity<Page<ClienteDTO>> listarClientesPage(Pageable pageable);
 
     @Operation(summary = "Busca um cliente por Id",
             responses = {

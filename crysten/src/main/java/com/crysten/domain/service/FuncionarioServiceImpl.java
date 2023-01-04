@@ -10,6 +10,9 @@ import com.crysten.domain.model.Funcionario;
 import com.crysten.domain.repository.FuncionarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +33,14 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     @Override
     public List<FuncionarioDTO> findAll() {
         return funcionarioModelAssembler.toCollectionModel(funcionarioRepository.findAll());
+    }
+
+    @Override
+    public Page<FuncionarioDTO> findAllPage(Pageable pageable) {
+        Page<Funcionario> funcionariosPage = funcionarioRepository.findAll(pageable);
+        List<FuncionarioDTO> funcionariosDTO = funcionarioModelAssembler.toCollectionModel(funcionariosPage.getContent());
+        Page<FuncionarioDTO> funcionarioDTOPage = new PageImpl<>(funcionariosDTO, pageable, funcionariosPage.getTotalElements());
+        return funcionarioDTOPage;
     }
 
     @Override
@@ -70,7 +81,6 @@ public class FuncionarioServiceImpl implements FuncionarioService{
           } else {
               funcionarioInputDissasembler.copyToDomainObject(funcionarioInput, funcionarioAtual);
           }
-
 
         return funcionarioModelAssembler.toModel(funcionarioRepository.save(funcionarioAtual));
     }
