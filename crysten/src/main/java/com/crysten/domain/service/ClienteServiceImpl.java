@@ -43,13 +43,12 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public ClienteDTO saveCliente(ClienteInput clienteInput) {
-
+        System.out.println(clienteInput.getEndereco().getNumero());
         int numero = clienteInput.getEndereco().getNumero();
 
         Endereco enderecoCep = consultaCep(clienteInput.getEndereco().getCep());
 
         clienteInput.setEndereco(enderecoCep);
-
         Cliente cliente = clienteInputDissasembler.toDomainObject(clienteInput);
         cliente.getEndereco().setNumero(numero);
 

@@ -1,0 +1,25 @@
+version: "3.9"
+
+networks:
+  crysten-network:
+    driver: bridge
+
+services:
+  crysten-mysql:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    networks:
+      - crysten-network
+
+  crysten-api:
+   image: crysten-api
+   command: ["/wait-for-it.sh", "crysten-mysql:3307", "-t", "30", "--", "java", "-jar", "api.jar"]
+   environment:
+     DB_HOST: crysten-mysql
+   networks:
+    - crysten-network
+   depends_on:
+    - crysten-mysql
