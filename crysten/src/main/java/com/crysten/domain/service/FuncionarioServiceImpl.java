@@ -1,11 +1,14 @@
 package com.crysten.domain.service;
 
+import com.crysten.api.assembler.FuncionarioInputDissasembler;
+import com.crysten.api.assembler.FuncionarioModelAssembler;
+import com.crysten.domain.dto.FuncionarioDTO;
+import com.crysten.domain.dto.input.FuncionarioInput;
 import com.crysten.domain.exception.FuncionarioNotFoundException;
 import com.crysten.domain.model.Endereco;
 import com.crysten.domain.model.Funcionario;
 import com.crysten.domain.repository.FuncionarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,45 +21,49 @@ public class FuncionarioServiceImpl implements FuncionarioService{
 
     private static final String MSG_FUNCIONARIO_NAO_ENCOTNADO = "Não existe um cadastro de cliente com código %d";
 
+    private FuncionarioModelAssembler funcionarioModelAssembler;
+
+    private FuncionarioInputDissasembler funcionarioInputDissasembler;
 
     private FuncionarioRepository funcionarioRepository;
 
     @Override
-    public List<Funcionario> findAll() {
-        return funcionarioRepository.findAll();
+    public List<FuncionarioDTO> findAll() {
+        return funcionarioModelAssembler.toCollectionModel(funcionarioRepository.findAll());
     }
 
     @Override
-    public Funcionario findById(Long idFuncionario) {
-        return buscarOuFalhar(idFuncionario);
+    public FuncionarioDTO findById(Long idFuncionario) {
+        return funcionarioModelAssembler.toModel(buscarOuFalhar(idFuncionario));
     }
 
     @Override
-    public Funcionario saveFuncionario(Funcionario funcionario) {
+    public FuncionarioDTO saveFuncionario(FuncionarioInput funcionarioInput) {
 
-        Endereco enderecoCep = consultaCep(funcionario.getEndereco().getCep());
+        Endereco enderecoCep = consultaCep(funcionarioInput.getEndereco().getCep());
+        funcionarioInput.setEndereco(enderecoCep);
 
-        funcionario.setEndereco(enderecoCep);
+        Funcionario funcionario = funcionarioInputDissasembler.toDomainObject(funcionarioInput);
 
-        return funcionarioRepository.save(funcionario);
+        return funcionarioModelAssembler.toModel(funcionarioRepository.save(funcionario));
     }
 
     @Override
-    public Funcionario updateFuncionario(Long idFuncionario, Funcionario funcionario) {
+    public FuncionarioDTO updateFuncionario(Long idFuncionario, FuncionarioInput funcionarioInput) {
 
       Funcionario funcionarioAtual = buscarOuFalhar(idFuncionario);
-      Endereco enderecoCep = consultaCep(funcionario.getEndereco().getCep());
+      Endereco enderecoCep = consultaCep(funcionarioInput.getEndereco().getCep());
 
-          if (funcionarioAtual.getEndereco().getCep() != funcionario.getEndereco().getCep()) {
-              BeanUtils.copyProperties(funcionario, funcionarioAtual, "id");
+          if (funcionarioAtual.getEndereco().getCep() != funcionarioInput.getEndereco().getCep()) {
+              funcionarioInputDissasembler.copyToDomainObject(funcionarioInput, funcionarioAtual);
               funcionarioAtual.setEndereco(enderecoCep);
 
           } else {
-              BeanUtils.copyProperties(funcionario, funcionarioAtual, "id");
+              funcionarioInputDissasembler.copyToDomainObject(funcionarioInput, funcionarioAtual);
           }
 
 
-        return funcionarioRepository.save(funcionarioAtual);
+        return funcionarioModelAssembler.toModel(funcionarioRepository.save(funcionarioAtual));
     }
 
     @Override

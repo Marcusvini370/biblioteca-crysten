@@ -1,19 +1,20 @@
 package com.crysten.domain.service;
 
+import com.crysten.domain.dto.FuncionarioDTO;
+import com.crysten.domain.dto.input.FuncionarioInput;
 import com.crysten.domain.model.Endereco;
-import com.crysten.domain.model.Funcionario;
 
 import java.util.List;
 
 public interface FuncionarioService {
 
-    List<Funcionario> findAll();
+    List<FuncionarioDTO> findAll();
 
-    Funcionario findById(Long idFuncionario);
+    FuncionarioDTO findById(Long idFuncionario);
 
-    Funcionario saveFuncionario(Funcionario funcionario);
+    FuncionarioDTO saveFuncionario(FuncionarioInput funcionarioInput);
 
-    Funcionario updateFuncionario(Long idFuncionario, Funcionario funcionario);
+    FuncionarioDTO updateFuncionario(Long idFuncionario, FuncionarioInput funcionarioInput);
 
     void delete(Long idFuncionario);
 

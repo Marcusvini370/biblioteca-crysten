@@ -1,19 +1,20 @@
 package com.crysten.domain.service;
 
-import com.crysten.domain.model.Cliente;
+import com.crysten.domain.dto.ClienteDTO;
+import com.crysten.domain.dto.input.ClienteInput;
 import com.crysten.domain.model.Endereco;
 
 import java.util.List;
 
 public interface ClienteService {
 
-    List<Cliente> findAll();
+    List<ClienteDTO> findAll();
 
-    Cliente findById(Long idCliente);
+    ClienteDTO findById(Long idCliente);
 
-    Cliente saveCliente(Cliente cliente);
+    ClienteDTO saveCliente(ClienteInput clienteInput);
 
-    Cliente updateCliente(Long idCliente, Cliente cliente);
+    ClienteDTO updateCliente(Long idCliente, ClienteInput clienteInput);
 
     void delete(Long idCliente);
 

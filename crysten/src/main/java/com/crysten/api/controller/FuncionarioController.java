@@ -1,8 +1,10 @@
 package com.crysten.api.controller;
 
+import com.crysten.domain.dto.FuncionarioDTO;
+import com.crysten.domain.dto.input.FuncionarioInput;
 import com.crysten.domain.model.Endereco;
-import com.crysten.domain.model.Funcionario;
 import com.crysten.domain.service.FuncionarioService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,13 @@ public class FuncionarioController {
    private FuncionarioService funcionarioService;
 
    @GetMapping
-    public List<Funcionario> findAll(){
-       return funcionarioService.findAll();
+    public ResponseEntity<List<FuncionarioDTO>> findAll(){
+       return ResponseEntity.ok(funcionarioService.findAll());
    }
 
     @GetMapping("/{id}")
-    public Funcionario findById(@PathVariable Long id){
-        return funcionarioService.findById(id);
+    public ResponseEntity<FuncionarioDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(funcionarioService.findById(id));
     }
 
    @ResponseBody
@@ -36,19 +38,18 @@ public class FuncionarioController {
    }
 
    @PostMapping
-    public ResponseEntity<Funcionario> saveFuncionario(@RequestBody Funcionario funcionario){
-       return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.saveFuncionario(funcionario));
+    public ResponseEntity<FuncionarioDTO> saveFuncionario(@RequestBody @Valid FuncionarioInput funcionarioInput){
+       return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.saveFuncionario(funcionarioInput));
    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Funcionario> updateFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario){
-        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.updateFuncionario(id, funcionario));
+    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable Long id, @RequestBody @Valid FuncionarioInput funcionarioInput){
+        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.updateFuncionario(id, funcionarioInput));
     }
 
     @DeleteMapping("{id}")
     public void deleteFuncionario(@PathVariable Long id){
         funcionarioService.delete(id);
     }
-
 
 }
