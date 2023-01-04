@@ -1,7 +1,7 @@
 package com.crysten.domain.service;
 
-import com.crysten.domain.dto.FuncionarioDTO;
-import com.crysten.domain.dto.input.FuncionarioInput;
+import com.crysten.api.dto.FuncionarioDTO;
+import com.crysten.api.dto.input.FuncionarioInput;
 import com.crysten.domain.model.Endereco;
 
 import java.util.List;

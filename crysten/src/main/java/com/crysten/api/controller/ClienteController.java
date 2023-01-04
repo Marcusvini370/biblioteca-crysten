@@ -1,13 +1,15 @@
 package com.crysten.api.controller;
 
-import com.crysten.domain.dto.ClienteDTO;
-import com.crysten.domain.dto.input.ClienteInput;
+import com.crysten.api.dto.ClienteDTO;
+import com.crysten.api.dto.input.ClienteInput;
 import com.crysten.domain.model.Endereco;
 import com.crysten.domain.service.ClienteService;
+
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

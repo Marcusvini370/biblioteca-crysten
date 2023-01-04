@@ -2,8 +2,8 @@ package com.crysten.domain.service;
 
 import com.crysten.api.assembler.ClienteInputDissasembler;
 import com.crysten.api.assembler.ClienteModelAssembler;
-import com.crysten.domain.dto.ClienteDTO;
-import com.crysten.domain.dto.input.ClienteInput;
+import com.crysten.api.dto.ClienteDTO;
+import com.crysten.api.dto.input.ClienteInput;
 import com.crysten.domain.exception.ClienteNotFoundException;
 import com.crysten.domain.model.Cliente;
 import com.crysten.domain.model.Endereco;

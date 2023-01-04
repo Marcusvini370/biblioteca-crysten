@@ -1,6 +1,6 @@
 package com.crysten.api.assembler;
 
-import com.crysten.domain.dto.input.ClienteInput;
+import com.crysten.api.dto.input.ClienteInput;
 import com.crysten.domain.model.Cliente;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

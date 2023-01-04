@@ -1,6 +1,6 @@
 package com.crysten.api.assembler;
 
-import com.crysten.domain.dto.input.FuncionarioInput;
+import com.crysten.api.dto.input.FuncionarioInput;
 import com.crysten.domain.model.Funcionario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

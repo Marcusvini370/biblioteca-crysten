@@ -1,4 +1,4 @@
-package com.crysten.domain.dto;
+package com.crysten.api.dto;
 
 import com.crysten.domain.model.Endereco;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FuncionarioDTO {
+public class ClienteDTO {
 
     private Long id;
 
