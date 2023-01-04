@@ -2,8 +2,10 @@ package com.crysten.api.controller;
 
 import com.crysten.api.dto.FuncionarioDTO;
 import com.crysten.api.dto.input.FuncionarioInput;
+import com.crysten.api.openapi.controller.FuncionarioControllerOpenApi;
 import com.crysten.domain.model.Endereco;
 import com.crysten.domain.service.FuncionarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/funcionario")
 @AllArgsConstructor
-public class FuncionarioController {
+public class FuncionarioController implements FuncionarioControllerOpenApi {
 
    private FuncionarioService funcionarioService;
 
@@ -29,14 +31,6 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarioService.findById(id));
     }
 
-   @ResponseBody
-   @GetMapping(value = "/consultarCep/{cep}")
-   public ResponseEntity<Endereco> consultaCep(@PathVariable("cep") String cep){
-       Endereco enderecoCep = funcionarioService.consultaCep(cep);
-
-       return new ResponseEntity<Endereco>(enderecoCep, HttpStatus.OK);
-   }
-
    @PostMapping
     public ResponseEntity<FuncionarioDTO> saveFuncionario(@RequestBody @Valid FuncionarioInput funcionarioInput){
        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.saveFuncionario(funcionarioInput));
@@ -48,8 +42,17 @@ public class FuncionarioController {
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFuncionario(@PathVariable Long id){
         funcionarioService.delete(id);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/consultarCep/{cep}")
+    @Operation(hidden = true)
+    public ResponseEntity<Endereco> consultaCep(@PathVariable("cep") String cep){
+        Endereco enderecoCep = funcionarioService.consultaCep(cep);
+        return new ResponseEntity<Endereco>(enderecoCep, HttpStatus.OK);
     }
 
 }

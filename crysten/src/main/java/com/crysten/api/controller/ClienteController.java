@@ -2,14 +2,14 @@ package com.crysten.api.controller;
 
 import com.crysten.api.dto.ClienteDTO;
 import com.crysten.api.dto.input.ClienteInput;
+import com.crysten.api.openapi.controller.ClienteControllerOpenApi;
 import com.crysten.domain.model.Endereco;
 import com.crysten.domain.service.ClienteService;
-
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/cliente")
 @AllArgsConstructor
-public class ClienteController {
+public class ClienteController implements ClienteControllerOpenApi {
 
     private ClienteService clienteService;
 
@@ -31,13 +31,6 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.findById(id));
     }
 
-    @ResponseBody
-    @GetMapping(value = "/consultarCep/{cep}")
-    public ResponseEntity<Endereco> consultaCep(@PathVariable("cep") String cep){
-        Endereco enderecoCep = clienteService.consultaCep(cep);
-        return new ResponseEntity<Endereco>(enderecoCep, HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<ClienteDTO> saveCliente(@RequestBody @Valid ClienteInput clienteInput){
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.saveCliente(clienteInput));
@@ -49,8 +42,16 @@ public class ClienteController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteCliete(@PathVariable Long id){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCliente(@PathVariable Long id){
         clienteService.delete(id);
     }
 
+    @ResponseBody
+    @Operation(hidden = true)
+    @GetMapping(value = "/consultarCep/{cep}")
+    public ResponseEntity<Endereco> consultaCep(@PathVariable("cep") String cep){
+        Endereco enderecoCep = clienteService.consultaCep(cep);
+        return new ResponseEntity<Endereco>(enderecoCep, HttpStatus.OK);
+    }
 }

@@ -19,6 +19,5 @@ public enum ProblemType {
 		this.uri = "http://localhost:8080" + path;
 		this.title = title;
 	}
-	
 
 }

@@ -1,21 +1,21 @@
 package com.crysten.api.dto.input;
 
 import com.crysten.domain.model.Endereco;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.UniqueConstraint;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Setter
 @Getter
 public class ClienteInput {
 
+    @Schema(example = "Marcus Vinicius Martins")
     @NotBlank
     private String nomeCompleto;
 
+    @Schema(example = "000.000.000-00", required = true)
     @CPF
     private String cpf;
 
