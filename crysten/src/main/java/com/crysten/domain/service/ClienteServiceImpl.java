@@ -45,7 +45,11 @@ public class ClienteServiceImpl implements ClienteService{
     public ClienteDTO saveCliente(ClienteInput clienteInput) {
 
         Endereco enderecoCep = consultaCep(clienteInput.getEndereco().getCep());
-        clienteInput.setEndereco(enderecoCep);
+        clienteInput.getEndereco().setUf(enderecoCep.getUf());
+        clienteInput.getEndereco().setLocalidade(enderecoCep.getLocalidade());
+        clienteInput.getEndereco().setBairro(enderecoCep.getBairro());
+        clienteInput.getEndereco().setComplemento(enderecoCep.getComplemento());
+        clienteInput.getEndereco().setLogradouro(enderecoCep.getLogradouro());
 
         Cliente cliente = clienteInputDissasembler.toDomainObject(clienteInput);
 
@@ -60,7 +64,12 @@ public class ClienteServiceImpl implements ClienteService{
 
         if (clienteAtual.getEndereco().getCep() != clienteInput.getEndereco().getCep()) {
             clienteInputDissasembler.copyToDomainObject(clienteInput, clienteAtual);
-            clienteAtual.setEndereco(enderecoCep);
+
+            clienteInput.getEndereco().setUf(enderecoCep.getUf());
+            clienteInput.getEndereco().setLocalidade(enderecoCep.getLocalidade());
+            clienteInput.getEndereco().setBairro(enderecoCep.getBairro());
+            clienteInput.getEndereco().setComplemento(enderecoCep.getComplemento());
+            clienteInput.getEndereco().setLogradouro(enderecoCep.getLogradouro());
 
         } else {
             clienteInputDissasembler.copyToDomainObject(clienteInput, clienteAtual);

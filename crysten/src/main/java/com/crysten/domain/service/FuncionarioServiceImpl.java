@@ -41,7 +41,11 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     public FuncionarioDTO saveFuncionario(FuncionarioInput funcionarioInput) {
 
         Endereco enderecoCep = consultaCep(funcionarioInput.getEndereco().getCep());
-        funcionarioInput.setEndereco(enderecoCep);
+        funcionarioInput.getEndereco().setUf(enderecoCep.getUf());
+        funcionarioInput.getEndereco().setLocalidade(enderecoCep.getLocalidade());
+        funcionarioInput.getEndereco().setBairro(enderecoCep.getBairro());
+        funcionarioInput.getEndereco().setComplemento(enderecoCep.getComplemento());
+        funcionarioInput.getEndereco().setLogradouro(enderecoCep.getLogradouro());
 
         Funcionario funcionario = funcionarioInputDissasembler.toDomainObject(funcionarioInput);
 
@@ -56,7 +60,12 @@ public class FuncionarioServiceImpl implements FuncionarioService{
 
           if (funcionarioAtual.getEndereco().getCep() != funcionarioInput.getEndereco().getCep()) {
               funcionarioInputDissasembler.copyToDomainObject(funcionarioInput, funcionarioAtual);
-              funcionarioAtual.setEndereco(enderecoCep);
+
+              funcionarioInput.getEndereco().setUf(enderecoCep.getUf());
+              funcionarioInput.getEndereco().setLocalidade(enderecoCep.getLocalidade());
+              funcionarioInput.getEndereco().setBairro(enderecoCep.getBairro());
+              funcionarioInput.getEndereco().setComplemento(enderecoCep.getComplemento());
+              funcionarioInput.getEndereco().setLogradouro(enderecoCep.getLogradouro());
 
           } else {
               funcionarioInputDissasembler.copyToDomainObject(funcionarioInput, funcionarioAtual);
