@@ -33,10 +33,10 @@ public interface FuncionarioControllerOpenApi {
                             content = @Content(schema = @Schema(ref = "Problema"))
                     ),
                     @ApiResponse(responseCode = "404", description = "Funcionário não encontrado",
-                            content = @Content(schema = @Schema(ref = "Problema"))
+                            content = @Content(schema = @Schema(ref = "Problema404"))
                     ),
                     @ApiResponse(responseCode = "406", description = "F",
-                            content = @Content(schema = @Schema(ref = "Problema"))
+                            content = @Content(schema = @Schema(ref = "Problema406"))
                     )
             })
     ResponseEntity<FuncionarioDTO> findById(@Parameter(description = "ID de um funcionário", example = "1", required = true) Long id);
@@ -56,7 +56,7 @@ public interface FuncionarioControllerOpenApi {
                             content = @Content(schema = @Schema(ref = "Problema"))
                     ),
                     @ApiResponse(responseCode = "404", description = "funcionário não encontrado",
-                            content = @Content(schema = @Schema(ref = "Problema"))
+                            content = @Content(schema = @Schema(ref = "Problema404"))
                     )
             })
     ResponseEntity<FuncionarioDTO> updateFuncionario(@Parameter(description = "ID de um funcionário", example = "1", required = true) Long id,
@@ -68,7 +68,7 @@ public interface FuncionarioControllerOpenApi {
                     content = @Content(schema = @Schema(ref = "Problema"))
             ),
             @ApiResponse(responseCode = "404", description = "Funcionário não encontradp",
-                    content = @Content(schema = @Schema(ref = "Problema"))
+                    content = @Content(schema = @Schema(ref = "Problema404"))
             )
     })
     public void deleteFuncionario(@Parameter(description = "ID de um funcionário", example = "1", required = true) Long id);

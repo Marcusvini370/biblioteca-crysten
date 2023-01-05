@@ -1,6 +1,9 @@
 package com.crysten.core.openapi;
 
 import com.crysten.api.exceptionhandler.Problem;
+import com.crysten.api.exceptionhandler.Problem404;
+import com.crysten.api.exceptionhandler.Problem406;
+import com.crysten.api.exceptionhandler.Problem500;
 import io.swagger.v3.core.converter.ModelConverters;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -86,9 +89,16 @@ public class SpringDocConfig {
         final Map<String, Schema> schemaMap = new HashMap<>();
 
         Map<String, Schema> problemSchema = ModelConverters.getInstance().read(Problem.class);
+        Map<String, Schema> problemSchema404 = ModelConverters.getInstance().read(Problem404.class);
+        Map<String, Schema> problemSchema406 = ModelConverters.getInstance().read(Problem406.class);
+        Map<String, Schema> problemSchema500 = ModelConverters.getInstance().read(Problem500.class);
+
         Map<String, Schema> problemObjectSchema = ModelConverters.getInstance().read(Problem.Object.class);
 
         schemaMap.putAll(problemSchema);
+        schemaMap.putAll(problemSchema404);
+        schemaMap.putAll(problemSchema406);
+        schemaMap.putAll(problemSchema500);
         schemaMap.putAll(problemObjectSchema);
 
         return schemaMap;
@@ -101,21 +111,31 @@ public class SpringDocConfig {
                 .addMediaType(APPLICATION_JSON_VALUE,
                         new MediaType().schema(new Schema<Problem>().$ref("Problema")));
 
+        Content content404 = new Content()
+                .addMediaType(APPLICATION_JSON_VALUE,
+                        new MediaType().schema(new Schema<Problem404>().$ref("Problema404")));
+        Content content406 = new Content()
+                .addMediaType(APPLICATION_JSON_VALUE,
+                        new MediaType().schema(new Schema<Problem406>().$ref("Problema406")));
+        Content content500 = new Content()
+                .addMediaType(APPLICATION_JSON_VALUE,
+                        new MediaType().schema(new Schema<Problem500>().$ref("Problema500")));
+
         apiResponseMap.put(badRequestResponse, new ApiResponse()
                 .description("Requisição inválida")
                 .content(content));
 
         apiResponseMap.put(notFoundResponse, new ApiResponse()
                 .description("Recurso não encontrado")
-                .content(content));
+                .content(content404));
 
         apiResponseMap.put(notAcceptableResponse, new ApiResponse()
                 .description("Recurso não possui representação que poderia ser aceita pelo consumidor")
-                .content(content));
+                .content(content406));
 
         apiResponseMap.put(internalServerErrorResponse, new ApiResponse()
                 .description("Erro interno no servidor")
-                .content(content));
+                .content(content500));
 
         return apiResponseMap;
     }

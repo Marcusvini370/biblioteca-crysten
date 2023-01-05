@@ -33,7 +33,13 @@ public interface ClienteControllerOpenApi {
                             content = @Content(schema = @Schema(ref = "Problema"))
                     ),
                     @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
-                            content = @Content(schema = @Schema(ref = "Problema"))
+                            content = @Content(schema = @Schema(ref = "Problema404"))
+                    ),
+                    @ApiResponse(responseCode = "406", description = "F",
+                            content = @Content(schema = @Schema(ref = "Problema406"))
+                    ),
+                    @ApiResponse(responseCode = "500", description = "F",
+                            content = @Content(schema = @Schema(ref = "Problema500"))
                     )
             })
     ResponseEntity<ClienteDTO> findById(@Parameter(description = "ID de um cliente", example = "1", required = true) Long id);
@@ -53,7 +59,7 @@ public interface ClienteControllerOpenApi {
                             content = @Content(schema = @Schema(ref = "Problema"))
                     ),
                     @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
-                            content = @Content(schema = @Schema(ref = "Problema"))
+                            content = @Content(schema = @Schema(ref = "Problema404"))
                     )
             })
     ResponseEntity<ClienteDTO> updateCliente(@Parameter(description = "ID de um cliente", example = "1", required = true) Long id,
@@ -65,7 +71,7 @@ public interface ClienteControllerOpenApi {
                     content = @Content(schema = @Schema(ref = "Problema"))
             ),
             @ApiResponse(responseCode = "404", description = "Cliente não encontradp",
-                    content = @Content(schema = @Schema(ref = "Problema"))
+                    content = @Content(schema = @Schema(ref = "Problema404"))
             )
     })
     public void deleteCliente(@Parameter(description = "ID de um cliente", example = "1", required = true) Long id);
