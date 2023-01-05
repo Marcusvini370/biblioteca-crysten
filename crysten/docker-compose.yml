@@ -19,6 +19,8 @@ services:
    command: ["/wait-for-it.sh", "crysten-mysql:3307", "-t", "30", "--", "java", "-jar", "api.jar"]
    environment:
      DB_HOST: crysten-mysql
+   ports:
+     - "8080:8080"
    networks:
     - crysten-network
    depends_on:
