@@ -3,6 +3,8 @@ package com.crysten.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +15,7 @@ import lombok.Setter;
 public class Endereco {
 
     @Schema(example = "01001-000", required = true)
+    @NotBlank
     private String cep;
     @Schema(example = "Praça da Sé")
     private String logradouro;
@@ -30,6 +33,7 @@ public class Endereco {
     private String uf;
 
     @Schema(example = "10")
+    @NotNull
     private Integer numero;
 
 }
