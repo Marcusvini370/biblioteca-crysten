@@ -4,6 +4,7 @@ import com.crysten.api.assembler.ClienteInputDissasembler;
 import com.crysten.api.assembler.ClienteModelAssembler;
 import com.crysten.api.dto.ClienteDTO;
 import com.crysten.api.dto.input.ClienteInput;
+import com.crysten.domain.exception.CepNotFoundException;
 import com.crysten.domain.exception.ClienteNotFoundException;
 import com.crysten.domain.model.Cliente;
 import com.crysten.domain.model.Endereco;
@@ -25,6 +26,7 @@ import java.util.List;
 public class ClienteServiceImpl implements ClienteService{
 
     private static final String MSG_CLIENTE_NAO_ENCOTNADO = "Não existe um cadastro de cliente com código %d";
+    private static final String MSG_CEP_NAO_ENCOTNADO = "O CEP digitado está inválido, por favor digite ele corretamente e tente novamente";
 
     private ClienteRepository clienteRepository;
 
@@ -59,7 +61,6 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public ClienteDTO saveCliente(ClienteInput clienteInput) {
-        System.out.println(clienteInput.getEndereco().getNumero());
         int numero = clienteInput.getEndereco().getNumero();
 
         Endereco enderecoCep = consultaCep(clienteInput.getEndereco().getCep());
@@ -107,18 +108,23 @@ public class ClienteServiceImpl implements ClienteService{
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(String.format(MSG_CLIENTE_NAO_ENCOTNADO, id)));
     }
+
     public Endereco consultaCep(String cep) {
 
-        Mono<Endereco> monoEndereco  = this.webClientViaCep
-                .method(HttpMethod.GET)
-                .uri("/{cep}/json", cep)
-                .retrieve()
-                .bodyToMono(Endereco.class);
+        try {
 
-       Endereco enderecoCep = monoEndereco.block();
+            Mono<Endereco> monoEndereco = this.webClientViaCep
+                    .method(HttpMethod.GET)
+                    .uri("/{cep}/json", cep)
+                    .retrieve()
+                    .bodyToMono(Endereco.class);
 
-        return enderecoCep;
+            Endereco enderecoCep = monoEndereco.block();
 
+            return enderecoCep;
+
+        } catch (Exception e) {
+            throw new CepNotFoundException(String.format(String.format(MSG_CEP_NAO_ENCOTNADO)));
+        }
     }
-
 }

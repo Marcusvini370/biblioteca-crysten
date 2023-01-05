@@ -4,6 +4,7 @@ import com.crysten.api.assembler.FuncionarioInputDissasembler;
 import com.crysten.api.assembler.FuncionarioModelAssembler;
 import com.crysten.api.dto.FuncionarioDTO;
 import com.crysten.api.dto.input.FuncionarioInput;
+import com.crysten.domain.exception.CepNotFoundException;
 import com.crysten.domain.exception.FuncionarioNotFoundException;
 import com.crysten.domain.model.Endereco;
 import com.crysten.domain.model.Funcionario;
@@ -23,6 +24,8 @@ import java.util.List;
 public class FuncionarioServiceImpl implements FuncionarioService{
 
     private static final String MSG_FUNCIONARIO_NAO_ENCOTNADO = "Não existe um cadastro de cliente com código %d";
+    private static final String MSG_CEP_NAO_ENCOTNADO = "O CEP digitado está inválido, por favor digite ele corretamente e tente novamente";
+
 
     private FuncionarioModelAssembler funcionarioModelAssembler;
 
@@ -105,8 +108,15 @@ public class FuncionarioServiceImpl implements FuncionarioService{
                 .orElseThrow(() -> new FuncionarioNotFoundException(String.format(MSG_FUNCIONARIO_NAO_ENCOTNADO, id)));
     }
 
-    public Endereco consultaCep(String cep){
-        return new RestTemplate().getForEntity("https://viacep.com.br/ws/ " + cep + "/json/", Endereco.class).getBody();
+    public Endereco consultaCep(String cep) {
+        try {
+
+            return new RestTemplate().getForEntity("https://viacep.com.br/ws/ " + cep + "/json/", Endereco.class).getBody();
+
+        } catch (Exception e) {
+            throw new CepNotFoundException(String.format(String.format(MSG_CEP_NAO_ENCOTNADO)));
+        }
+
     }
 
 }
