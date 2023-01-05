@@ -6,7 +6,7 @@ o projeto tem docker, flyway, tratamento de exceções, dto, paginação, docume
 
 ## <h2 align="center">Endpoints do projeto documentados no Swagger com SpringDoc!</h2>
 
-<p>link para acessar a documentaçãao localmente: <b>http://localhost:8080/swagger-ui/index.html#/</b> </p>
+<p>link para acessar a documentação localmente: <b>http://localhost:8080/swagger-ui/index.html#/</b> </p>
 
 ![image](https://user-images.githubusercontent.com/51136557/210680374-0028e4bd-536c-498c-8989-dc3260d31be7.png)
 
